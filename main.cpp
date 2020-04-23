@@ -4,13 +4,13 @@
 #include <vector>
 #include <map>
 using namespace std;
-map<char, string> mingTomi;
-map<string, char> miToming;
+map<char, string> plainTocipher;
+map<string, char> cipherToplain;
 string chars = "jiamgw0851472369";
 void inite(){
 	for (int i = 0; i < 256; ++i){
-		mingTomi[i-128] = string(1, chars[i%16])+string(1, chars[(i/16)%16]);
-		miToming[string(1, chars[i%16])+string(1, chars[(i/16)%16])] = i-128;
+		plainTocipher[i-128] = string(1, chars[i%16])+string(1, chars[(i/16)%16]);
+		cipherToplain[string(1, chars[i%16])+string(1, chars[(i/16)%16])] = i-128;
 	}
 }
 string decrypt(string s) {
@@ -20,7 +20,7 @@ string decrypt(string s) {
 		string mi(2,'a');
 		mi[0] = s[i++];
 		mi[1] = s[i++];
-		ret += miToming[mi];
+		ret += cipherToplain[mi];
 	}
 	return ret;
 }
@@ -29,8 +29,8 @@ string encrypt(string s) {
 	int len = 0;
 	ret[len++] = '$';
 	for (int i = 0; i < s.size(); i++){
-		ret[len++] = mingTomi[s[i]][0];
-		ret[len++] = mingTomi[s[i]][1];
+		ret[len++] = plainTocipher[s[i]][0];
+		ret[len++] = plainTocipher[s[i]][1];
 	}
 	return string(ret);
 }
